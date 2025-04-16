@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:chatwoot_sdk/chatwoot_sdk.dart';
 import 'package:chatwoot_sdk/ui/webview_widget/utils.dart';
 import 'package:flutter/material.dart';
@@ -124,7 +125,15 @@ class _WebviewState extends State<Webview> {
   @override
   Widget build(BuildContext context) {
     return _controller != null
-        ? WebViewWidget(controller: _controller!)
+         ? WebViewWidget(
+            controller: _controller!,
+            gestureRecognizers: Set()
+              ..add(
+                Factory<VerticalDragGestureRecognizer>(
+                  () => VerticalDragGestureRecognizer(),
+                ), // or null
+              ),
+          )
         : SizedBox();
   }
 

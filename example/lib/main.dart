@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:chatwoot_sdk/chatwoot_sdk.dart';
+import 'package:chatwoot-flutter-sdk/chatwoot_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as image;
@@ -20,13 +20,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(
+        title: 'Flutter Demo Home Page',
+        key: Key('home'),
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({required Key key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -43,37 +46,36 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Chatwoot Example"),
-      ),
-      body: ChatwootWidget(
-        websiteToken: "websiteToken",
-        baseUrl: "https://app.chatwoot.com",
-        user: ChatwootUser(
-          identifier: "test@test.com",
-          name: "Tester test",
-          email: "test@test.com",
-        ),
-        locale: "en",
-        closeWidget: () {
-          if (Platform.isAndroid) {
-            SystemNavigator.pop();
-          } else if (Platform.isIOS) {
-            exit(0);
-          }
-        },
-        //attachment only works on android for now
-        onAttachFile: _androidFilePicker,
-        onLoadStarted: () {
-          print("loading widget");
-        },
-        onLoadProgress: (int progress) {
-          print("loading... ${progress}");
-        },
-        onLoadCompleted: () {
-          print("widget loaded");
-        },
-      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: ChatwootWidget(
+          websiteToken: "FU7SSnMcYLJ5LFauGSUY5kUA",
+          baseUrl: "https://support.yayawallet.com",
+          user: ChatwootUser(
+            identifier: "test@test.com",
+            name: "Tester test",
+            email: "test@test.com",
+          ),
+          locale: "en",
+          closeWidget: () {
+            if (Platform.isAndroid) {
+              SystemNavigator.pop();
+            } else if (Platform.isIOS) {
+              exit(0);
+            }
+          },
+          //attachment only works on android for now
+          onAttachFile: _androidFilePicker,
+          onLoadStarted: () {
+            print("loading widget");
+          },
+          onLoadProgress: (int progress) {
+            print("loading... ${progress}");
+          },
+          onLoadCompleted: () {
+            print("widget loaded");
+          },
+        ))
     );
   }
 
@@ -88,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final imageData = await photo.readAsBytes();
     final decodedImage = image.decodeImage(imageData);
-    final scaledImage = image.copyResize(decodedImage, width: 500);
+    final scaledImage = image.copyResize(decodedImage!, width: 500);
     final jpg = image.encodeJpg(scaledImage, quality: 90);
 
     final filePath = (await getTemporaryDirectory()).uri.resolve(
