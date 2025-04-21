@@ -43,7 +43,7 @@ class ChatwootChat extends StatefulWidget {
   final double? onEndReachedThreshold;
 
   /// See [Message.onMessageLongPress]
-  final void Function(types.Message)? onMessageLongPress;
+  final void Function(BuildContext, types.Message)? onMessageLongPress;
 
   /// See [Message.onMessageTap]
   final void Function(types.Message)? onMessageTap;
@@ -131,7 +131,64 @@ class ChatwootChat extends StatefulWidget {
       this.onTextChanged,
       this.showUserAvatars = true,
       this.showUserNames = true,
-      this.theme = const ChatwootChatTheme(),
+      this.theme = const ChatwootChatTheme(
+        attachmentButtonMargin: const EdgeInsets.only(right: 16),
+        dateDividerMargin: const EdgeInsets.symmetric(vertical: 24),
+        inputSurfaceTintColor: Colors.transparent,
+        inputElevation: 0.0,
+        inputMargin: const EdgeInsets.all(16),
+        inputPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        inputTextDecoration: const InputDecoration(border: InputBorder.none),
+
+        // Mensajes
+        messageInsetsHorizontal: 16.0,
+        messageInsetsVertical: 8.0,
+        messageMaxWidth: 280.0,
+
+        // Emojis
+        receivedEmojiMessageTextStyle: const TextStyle(fontSize: 40),
+        sentEmojiMessageTextStyle: const TextStyle(fontSize: 40),
+
+        // Botones
+        sendButtonMargin: const EdgeInsets.only(left: 16),
+        statusIconPadding: const EdgeInsets.all(4),
+
+        // Typing Indicator (completo con todos los parámetros)
+        typingIndicatorTheme: TypingIndicatorTheme(
+          animatedCirclesColor: chatwootColorPrimary,
+          bubbleBorder: BorderRadius.all(Radius.circular(12.0)),
+          bubbleColor: Color(0xFFE0E0E0), // Equivalente a Colors.grey[200]
+          countAvatarColor: Color(0xFFEEEEEE), // Equivalente a Colors.grey[300]
+          animatedCircleSize: 8.0,
+          countTextColor: Colors.black87,
+          multipleUserTextStyle: TextStyle(
+            color: Colors.black54,
+            fontSize: 12,
+          ),
+        ),
+
+        // Avatar
+        userAvatarImageBackgroundColor: Color(0xFFE0E0E0), // Colors.grey[200]
+
+        // System Message
+        systemMessageTheme: SystemMessageTheme(
+          margin: const EdgeInsets.symmetric(vertical: 24),
+          textStyle: TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+
+        // Unread Header
+        unreadHeaderTheme: UnreadHeaderTheme(
+          color: (chatwootColorPrimary),
+          textStyle: TextStyle(
+            color: chatwootColorPrimary,
+            fontSize: 12,
+          ),
+        ),
+      ),
       this.l10n = const ChatwootL10n(),
       this.timeFormat,
       this.dateFormat,
@@ -333,7 +390,7 @@ class _ChatwootChatState extends State<ChatwootChat> {
     });
   }
 
-  void _handleMessageTap(types.Message message) async {
+  void _handleMessageTap(BuildContext context, types.Message message) async {
     if (message.status == types.Status.error && message is types.TextMessage) {
       _handleResendMessage(message);
     }
@@ -345,7 +402,7 @@ class _ChatwootChatState extends State<ChatwootChat> {
     types.PreviewData previewData,
   ) {
     final index = _messages.indexWhere((element) => element.id == message.id);
-    final updatedMessage = _messages[index].copyWith(previewData: previewData);
+    final updatedMessage = _messages[index];
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
@@ -418,7 +475,6 @@ class _ChatwootChatState extends State<ChatwootChat> {
                 onEndReached: widget.onEndReached,
                 onEndReachedThreshold: widget.onEndReachedThreshold,
                 onMessageLongPress: widget.onMessageLongPress,
-                onTextChanged: widget.onTextChanged,
                 showUserAvatars: widget.showUserAvatars,
                 showUserNames: widget.showUserNames,
                 timeFormat: widget.timeFormat ?? DateFormat.Hm(),
@@ -427,7 +483,6 @@ class _ChatwootChatState extends State<ChatwootChat> {
                 l10n: widget.l10n,
               ),
             ),
-          
           )
         ],
       ),
