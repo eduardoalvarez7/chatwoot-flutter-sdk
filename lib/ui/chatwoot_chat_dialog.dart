@@ -190,13 +190,78 @@ class _ChatwootChatDialogState extends State<ChatwootChatDialog> {
                 timeFormat: widget.timeFormat,
                 dateFormat: widget.dateFormat,
                 theme: ChatwootChatTheme(
-                    primaryColor: widget.primaryColor ?? CHATWOOT_COLOR_PRIMARY,
-                    secondaryColor: widget.secondaryColor ?? Colors.white,
-                    backgroundColor:
-                        widget.backgroundColor ?? CHATWOOT_BG_COLOR,
-                    userAvatarNameColors: [
-                      widget.primaryColor ?? CHATWOOT_COLOR_PRIMARY
-                    ]),
+                  primaryColor: widget.primaryColor ?? chatwootColorPrimary,
+                  secondaryColor: widget.secondaryColor ?? Colors.white,
+                  backgroundColor: widget.backgroundColor ?? chatwootBgColor,
+                  userAvatarNameColors: [
+                    widget.primaryColor ?? chatwootColorPrimary
+                  ],
+
+                  // Configuración básica
+                  attachmentButtonMargin: const EdgeInsets.only(right: 16),
+                  dateDividerMargin: const EdgeInsets.symmetric(vertical: 24),
+                  inputSurfaceTintColor: Colors.transparent,
+                  inputElevation: 0.0,
+                  inputMargin: const EdgeInsets.all(16),
+                  inputPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  inputTextDecoration:
+                      const InputDecoration(border: InputBorder.none),
+
+                  // Mensajes
+                  messageInsetsHorizontal: 16.0,
+                  messageInsetsVertical: 8.0,
+                  messageMaxWidth: 280.0,
+
+                  // Emojis
+                  receivedEmojiMessageTextStyle: const TextStyle(fontSize: 40),
+                  sentEmojiMessageTextStyle: const TextStyle(fontSize: 40),
+
+                  // Botones
+                  sendButtonMargin: const EdgeInsets.only(left: 16),
+                  statusIconPadding: const EdgeInsets.all(4),
+
+                  // Typing Indicator (completo con todos los parámetros)
+                  typingIndicatorTheme: TypingIndicatorTheme(
+                    animatedCirclesColor:
+                        widget.primaryColor ?? chatwootColorPrimary,
+                    bubbleBorder: BorderRadius.circular(12),
+                    bubbleColor:
+                        Color(0xFFE0E0E0), // Equivalente a Colors.grey[200]
+                    countAvatarColor:
+                        Color(0xFFEEEEEE), // Equivalente a Colors.grey[300]
+                    animatedCircleSize: 8.0,
+                    countTextColor: Colors.black87,
+                    multipleUserTextStyle: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 12,
+                    ),
+                  ),
+
+                  // Avatar
+                  userAvatarImageBackgroundColor:
+                      Color(0xFFE0E0E0), // Colors.grey[200]
+
+                  // System Message
+                  systemMessageTheme: SystemMessageTheme(
+                    margin: const EdgeInsets.symmetric(vertical: 24),
+                    textStyle: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+
+                  // Unread Header
+                  unreadHeaderTheme: UnreadHeaderTheme(
+                    color: (widget.primaryColor ?? chatwootColorPrimary)
+                        .withOpacity(0.1),
+                    textStyle: TextStyle(
+                      color: widget.primaryColor ?? chatwootColorPrimary,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
                 isPresentedInDialog: true,
                 onConversationIsOffline: () {
                   setState(() {
