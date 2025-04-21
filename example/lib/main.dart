@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:chatwoot-flutter-sdk/chatwoot_sdk.dart';
+import 'package:chatwoot_sdk/chatwoot_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as image;
@@ -46,37 +46,36 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: ChatwootWidget(
-          websiteToken: "FU7SSnMcYLJ5LFauGSUY5kUA",
-          baseUrl: "https://support.yayawallet.com",
-          user: ChatwootUser(
-            identifier: "test@test.com",
-            name: "Tester test",
-            email: "test@test.com",
-          ),
-          locale: "en",
-          closeWidget: () {
-            if (Platform.isAndroid) {
-              SystemNavigator.pop();
-            } else if (Platform.isIOS) {
-              exit(0);
-            }
-          },
-          //attachment only works on android for now
-          onAttachFile: _androidFilePicker,
-          onLoadStarted: () {
-            print("loading widget");
-          },
-          onLoadProgress: (int progress) {
-            print("loading... ${progress}");
-          },
-          onLoadCompleted: () {
-            print("widget loaded");
-          },
-        ))
-    );
+        body: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: ChatwootWidget(
+              websiteToken: "FU7SSnMcYLJ5LFauGSUY5kUA",
+              baseUrl: "https://support.yayawallet.com",
+              user: ChatwootUser(
+                identifier: "test@test.com",
+                name: "Tester test",
+                email: "test@test.com",
+              ),
+              locale: "en",
+              closeWidget: () {
+                if (Platform.isAndroid) {
+                  SystemNavigator.pop();
+                } else if (Platform.isIOS) {
+                  exit(0);
+                }
+              },
+              //attachment only works on android for now
+              onAttachFile: _androidFilePicker,
+              onLoadStarted: () {
+                print("loading widget");
+              },
+              onLoadProgress: (int progress) {
+                print("loading... ${progress}");
+              },
+              onLoadCompleted: () {
+                print("widget loaded");
+              },
+            )));
   }
 
   Future<List<String>> _androidFilePicker() async {
